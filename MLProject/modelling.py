@@ -17,15 +17,14 @@ X_train, X_test, y_train, y_test = train_test_split(
 )
 
 mlflow.set_tracking_uri("file:./mlruns")
-mlflow.set_experiment("Social Anxiety CI")
-
 mlflow.sklearn.autolog()
 
-with mlflow.start_run(run_name="CI_RandomForest_Model"):
-    model = RandomForestClassifier(random_state=42)
-    model.fit(X_train, y_train)
+model = RandomForestClassifier(random_state=42)
+model.fit(X_train, y_train)
 
-    y_pred = model.predict(X_test)
-    accuracy = accuracy_score(y_test, y_pred)
+y_pred = model.predict(X_test)
+accuracy = accuracy_score(y_test, y_pred)
 
-    print("Accuracy:", accuracy)
+mlflow.log_metric("accuracy_manual", accuracy)
+
+print("Accuracy:", accuracy)
